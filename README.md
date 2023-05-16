@@ -16,7 +16,21 @@ Original LuaSocket `README.md` ends here.
 
 ## Fetch Changes form original LuaSocket Repository
 
-These are the command to incorporate code base changes form original LuaSocket repository:
+These are the command to incorporate code base changes form original LuaSocket repository.
+
+1. Add original and remote repository to local clone. This step is only required once.
+
+```cmd
+C:\misc\luasocket>git remote add luasocket https://github.com/lunarmodules/luasocket.git
+C:\misc\luasocket>git remote -v
+luasocket       https://github.com/lunarmodules/luasocket.git (fetch)
+luasocket       https://github.com/lunarmodules/luasocket.git (push)
+origin  git@github.com:KritzelKratzel/luasocket.git (fetch)
+origin  git@github.com:KritzelKratzel/luasocket.git (push)
+C:\misc\luasocket>
+```
+
+2. Command sequence for fetching changes on original repository on [Lunar Modules](https://github.com/lunarmodules):
 
 ```cmd
 git checkout master
