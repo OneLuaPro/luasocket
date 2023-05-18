@@ -13,4 +13,4 @@ Release
 *.suo
 x64
 *.*~
-
+build
