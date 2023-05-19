@@ -30,7 +30,7 @@ if(WIN32 AND NOT MinGW)
   target_sources(socket PRIVATE
     wsocket.c wsocket.h)
   target_compile_options(socket PRIVATE
-    /D_USRDLL /D_CRT_SECURE_NO_WARNINGS /D_WINDLL /DLUASOCKET_NODEBUG)
+    /D_USRDLL /D_CRT_SECURE_NO_WARNINGS /D_WINDLL /DLUASOCKET_${LUASOCKET_DEBUG_MODE})
   target_link_options(socket PRIVATE
     /LIBPATH:${LIBLUA_LIBDIR} liblua.lib ws2_32.lib)
 else()
@@ -43,7 +43,9 @@ target_sources(socket
   io.h auxiliar.c auxiliar.h compat.c compat.h options.c options.h inet.c inet.h
   except.c except.h select.c select.h tcp.c tcp.h udp.c udp.h
 )
-# Account for specific output name (very much Lua-related)
+# Account for specific directory structure and DLL naming conventions.
+# See https://lunarmodules.github.io/luasocket/installation.html, chapter
+# "Directory structure". See also:
 # https://cmake.cmake.narkive.com/VIv2sdQB/rename-of-target-on-install
 set_target_properties(socket
   PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/socket)
@@ -76,7 +78,9 @@ endif()
 target_sources(mime
   PRIVATE mime.c mime.h compat.c compat.h
 )
-# Account for specific output name (very much Lua-related)
+# Account for specific directory structure and DLL naming conventions.
+# See https://lunarmodules.github.io/luasocket/installation.html, chapter
+# "Directory structure". See also:
 # https://cmake.cmake.narkive.com/VIv2sdQB/rename-of-target-on-install
 set_target_properties(mime
   PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/mime)
@@ -94,13 +98,13 @@ install(
 # ------------------------------------------------------------------------------
 # unix.so (UNIX and alike only)
 if(NOT WIN32)
-  message(WARNING "luasocket unix.so: not yet integrated into CMake.")
+  message(WARNING "luasocket unix.so: not yet integrated into CMakeLists.txt.")
 endif()
 
 # ------------------------------------------------------------------------------
 # serial.so (UNIX and alike only)
 if(NOT WIN32)
-  message(WARNING "luasocket serial.so: not yet integrated into CMake.")
+  message(WARNING "luasocket serial.so: not yet integrated into CMakeLists.txt.")
 endif()
 
 # ------------------------------------------------------------------------------
