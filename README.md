@@ -1,16 +1,10 @@
 # LuaSocket with CMake Support
 
-[![Build](https://img.shields.io/github/workflow/status/lunarmodules/luasocket/Build?label=Build=Lua)](https://github.com/lunarmodules/luasocket/actions?workflow=Build)
-[![Luacheck](https://img.shields.io/github/workflow/status/lunarmodules/luasocket/Luacheck?label=Luacheck&logo=Lua)](https://github.com/lunarmodules/luasocket/actions?workflow=Luacheck)
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/lunarmodules/luasocket?label=Tag&logo=GitHub)](https://github.com/lunarmodules/luasocket/releases)
-[![Luarocks](https://img.shields.io/luarocks/v/lunarmodules/luasocket?label=Luarocks&logo=Lua)](https://luarocks.org/modules/lunarmodules/luasocket)
-
 LuaSocket is a Lua extension library composed of two parts:
 
-1. a set of C modules that provide support for the TCP and UDP transport layers, and
-2. a set of Lua modules that provide functions commonly needed by applications that deal with the Internet.
+- a set of C modules that provide support for the TCP and UDP transport layers, and
 
-Original LuaSocket `README.md` ends here.
+- a set of Lua modules that provide functions commonly needed by applications that deal with the Internet.
 
 ------
 
@@ -45,28 +39,21 @@ cmake --install . --config Release
 
 Replace `<arch>` with your desired architecture. Available architectures with selected `Visual Studio 17 2022` generator are `Win32`, `x64`, `ARM` and `ARM64`. LuaSocket documentation and examples are available in `<lua_install_dir>/share/doc/luasocket` after install.
 
-## Fetch Changes form original LuaSocket Repository
+## Sync this fork with original LuaSocket repository
 
-These are the command to incorporate code base changes form original LuaSocket repository.
+Open Git Bash and execute `./SyncFork.sh`.
 
-1. Add original and remote repository to local clone. This step is only required once.
-
-```cmd
-C:\misc\luasocket>git remote add luasocket https://github.com/lunarmodules/luasocket.git
-C:\misc\luasocket>git remote -v
-luasocket       https://github.com/lunarmodules/luasocket.git (fetch)
-luasocket       https://github.com/lunarmodules/luasocket.git (push)
-origin  git@github.com:KritzelKratzel/luasocket.git (fetch)
-origin  git@github.com:KritzelKratzel/luasocket.git (push)
-C:\misc\luasocket>
-```
-
-2. Command sequence for fetching changes on original repository on [Lunar Modules](https://github.com/lunarmodules):
-
-```cmd
-git checkout master
-git pull origin master
-git merge luasocket/master
-git push origin master
+```bash
+John Doe@DESKTOP-1HK25HF MINGW64 /c/misc/luasocket (master)
+$ ./SyncFork.sh
+Original remote repo found.
+Already on 'master'
+Your branch is up to date with 'origin/master'.
+From github.com:KritzelKratzel/luasocket
+ * branch            master     -> FETCH_HEAD
+Already up to date.
+Already up to date.
+Everything up-to-date
+John Doe@DESKTOP-1HK25HF MINGW64 /c/misc/luasocket (master)
 ```
 
