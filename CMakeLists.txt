@@ -1,6 +1,6 @@
 # MIT License
 #
-# Copyright (c) 2023 Kritzel Kratzel.
+# Copyright (c) 2023-2024 Kritzel Kratzel.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of
 # this software and associated documentation files (the "Software"), to deal in 
@@ -23,15 +23,14 @@
 # ------------------------------------------------------------------------------
 # CMake for luasocket
 # ------------------------------------------------------------------------------
-# Setup with Visual Studio 17 2022 generator for Win32
+# Setup with Visual Studio 17 2022 generator for x64
 # ------------------------------------------------------------------------------
 # Visual Studio is a mutlti-configuration generator
 # https://stackoverflow.com/questions/24460486/
 #
 # Basic instructions for out-of-source build
 # ------------------------------------------
-# mkdir build
-# cd build
+# mkdir build && cd build
 # cmake .. -G "Visual Studio 17 2022" -A Win32
 # cmake --build . --config Release
 # cmake --install . --config Release
@@ -72,6 +71,19 @@ endif()
 # ------------------------------------------------------------------------------
 # Project defintion
 project(luasocket LANGUAGES C)
+
+# ------------------------------------------------------------------------------
+# OS dependent settings
+# https://learn.microsoft.com/en-us/windows/win32/winprog/using-the-windows-headers
+if(WIN32) # true if windows (32 and 64 bit)
+  if(${CMAKE_SYSTEM_VERSION} EQUAL 6.1.7601) # Windows 7 SP1
+    # Build for Windows 7 and upwards
+    add_definitions(/DWINVER=0x0601 /D_WIN32_WINNT=0x0601)
+  else() # Some other Windows
+    # Build for Win 10 and upwards
+    add_definitions(/DWINVER=0x0A00 /D_WIN32_WINNT=0x0A00)
+  endif()
+endif()
 
 # ------------------------------------------------------------------------------
 # Other settings
