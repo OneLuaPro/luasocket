@@ -114,13 +114,15 @@ set(INSTALL_DOCDIR
   ${CMAKE_INSTALL_DOCDIR} CACHE PATH "Installation directory for documentation")
 set(INSTALL_MANDIR
   ${CMAKE_INSTALL_MANDIR} CACHE PATH "Installation directory for manpages")
+set(INSTALL_DATAROOTDIR
+  ${CMAKE_INSTALL_DATAROOTDIR} CACHE PATH "Installation directory for data")
 # Lua-specific installation dirs
 set(INSTALL_SOCKET_CDIR
   ${INSTALL_LIBDIR}/lua/${liblua_VERSION_MAJOR}.${liblua_VERSION_MINOR}/socket)
 set(INSTALL_MIME_CDIR
   ${INSTALL_LIBDIR}/lua/${liblua_VERSION_MAJOR}.${liblua_VERSION_MINOR}/mime)
 set(INSTALL_TOP_LDIR
-  ${LIBLUA_INSTALLDIR}/share/lua/${liblua_VERSION_MAJOR}.${liblua_VERSION_MINOR})
+  ${INSTALL_DATAROOTDIR}/lua/${liblua_VERSION_MAJOR}.${liblua_VERSION_MINOR})
 set(INSTALL_SOCKET_LDIR ${INSTALL_TOP_LDIR}/socket)
 
 # ------------------------------------------------------------------------------
