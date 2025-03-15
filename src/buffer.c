@@ -10,6 +10,7 @@
 \*=========================================================================*/
 static int recvraw(p_buffer buf, size_t wanted, luaL_Buffer *b);
 static int recvline(p_buffer buf, luaL_Buffer *b);
+static int recvline_cr(p_buffer buf, luaL_Buffer *b);
 static int recvall(p_buffer buf, luaL_Buffer *b);
 static int buffer_get(p_buffer buf, const char **data, size_t *count);
 static void buffer_skip(p_buffer buf, size_t count);
@@ -119,6 +120,7 @@ int buffer_meth_receive(lua_State *L, p_buffer buf) {
     if (!lua_isnumber(L, 2)) {
         const char *p= luaL_optstring(L, 2, "*l");
         if (p[0] == '*' && p[1] == 'l') err = recvline(buf, &b);
+        else if (p[0] == '*' && p[1] == 'r') err = recvline_cr(buf, &b);
         else if (p[0] == '*' && p[1] == 'a') err = recvall(buf, &b);
         else luaL_argcheck(L, 0, 2, "invalid receive pattern");
     /* get a fixed number of bytes (minus what was already partially
@@ -235,6 +237,32 @@ static int recvline(p_buffer buf, luaL_Buffer *b) {
         }
         if (pos < count) { /* found '\n' */
             buffer_skip(buf, pos+1); /* skip '\n' too */
+            break; /* we are done */
+        } else /* reached the end of the buffer */
+            buffer_skip(buf, pos);
+    }
+    return err;
+}
+
+/*-------------------------------------------------------------------------*\
+* Reads a line terminated just by a CR. The CR termination is not returned
+* by the function and is discarded from the buffer. In addition, all LF
+* characters are ignored by the pattern.
+* See also: https://stackoverflow.com/questions/1552749/
+\*-------------------------------------------------------------------------*/
+static int recvline_cr(p_buffer buf, luaL_Buffer *b) {
+    int err = IO_DONE;
+    while (err == IO_DONE) {
+        size_t count, pos; const char *data;
+        err = buffer_get(buf, &data, &count);
+        pos = 0;
+        while (pos < count && data[pos] != '\r') {
+            /* we ignore all \n's */
+	    if (data[pos] != '\n') luaL_addchar(b, data[pos]);
+            pos++;
+        }
+        if (pos < count) { /* found '\r' */
+            buffer_skip(buf, pos+1); /* skip '\r' too */
             break; /* we are done */
         } else /* reached the end of the buffer */
             buffer_skip(buf, pos);
