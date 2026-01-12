@@ -29,7 +29,7 @@ set(SOCKET_C_FILES
 )
 set(SOCKET_H_FILES
   luasocket.h timeout.h buffer.h io.h auxiliar.h compat.h options.h
-  inet.h except.h select.h tcp.h udp.h
+  inet.h except.h select.h tcp.h udp.h socket.h
 )
 # Plattform-dependent sources
 if(WIN32 AND NOT MinGW)
