@@ -1,6 +1,6 @@
 # MIT License
 #
-# Copyright (c) 2023-2026 Kritzel Kratzel.
+# Copyright (c) 2023-2026 The OneLuaPro project authors.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of
 # this software and associated documentation files (the "Software"), to deal in 
@@ -39,6 +39,9 @@ else()
   message(FATAL_ERROR "Not yet fully implemented.")
 endif()
 
+# Silence winsock deprecation warnings
+add_definitions(-D_WINSOCK_DEPRECATED_NO_WARNINGS)
+
 # Object library definition
 add_library(socket_obj OBJECT ${SOCKET_C_FILES})
 target_include_directories(socket_obj PRIVATE ${LIBLUA_INCLUDEDIR})
@@ -55,7 +58,8 @@ add_library(socket SHARED $<TARGET_OBJECTS:socket_obj>)
 set_target_properties(socket PROPERTIES OUTPUT_NAME "socket")
 target_sources(socket PUBLIC FILE_SET HEADERS FILES ${SOCKET_H_FILES})
 target_include_directories(socket PRIVATE ${LIBLUA_INCLUDEDIR})
-target_link_libraries(socket PRIVATE ${LIBLUA_LIBDIR}/liblua.lib ws2_32.lib)
+target_link_directories(socket PRIVATE ${LIBLUA_LIBDIR})
+target_link_libraries(socket PRIVATE liblua.lib ws2_32.lib)
 
 # socket static lib for optional luasec integration
 add_library(socket_static STATIC $<TARGET_OBJECTS:socket_obj>)
@@ -106,8 +110,8 @@ target_include_directories(mime PRIVATE ${LIBLUA_INCLUDEDIR})
 if(WIN32 AND NOT MinGW)
   target_compile_options(mime PRIVATE
     /D_USRDLL /D_CRT_SECURE_NO_WARNINGS /D_WINDLL /DLUASOCKET_${LUASOCKET_DEBUG_MODE})
-  target_link_options(mime PRIVATE
-    /LIBPATH:${LIBLUA_LIBDIR} liblua.lib ws2_32.lib)
+  target_link_directories(mime PRIVATE ${LIBLUA_LIBDIR})
+  target_link_libraries(mime PRIVATE liblua.lib ws2_32.lib)
 else()
   message(FATAL_ERROR "Not yet fully implemented.")
 endif()
