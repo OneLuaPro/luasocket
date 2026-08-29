@@ -17,18 +17,18 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Setup ’msvc’
         if: ${{ startsWith(matrix.platform, 'windows') && !startsWith(matrix.luaVersion, 'luajit') }}
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1
       - name: Setup ‘lua’
-        uses: luarocks/gh-actions-lua@v10
+        uses: luarocks/gh-actions-lua@85e2287697275df96334743ac654241a8fd34ab3 # v13
         with:
           luaVersion: ${{ matrix.luaVersion }}
           buildCache: false
       - name: Setup ‘luarocks’
         # master branch until tagged release has luajit & msvcrt fixes
-        uses: luarocks/gh-actions-luarocks@master
+        uses: luarocks/gh-actions-luarocks@95d2308a0aff36ad31ebadca493ed14853399842 # master
       - name: Make and install
         run: |
           luarocks make -- luasocket-scm-3.rockspec
